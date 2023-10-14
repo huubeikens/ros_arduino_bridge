@@ -29,6 +29,7 @@
 
   // A convenience function for setting both motor speeds
   void setMotorSpeeds(int leftSpeed, int rightSpeed) {
+        Serial.println("setMotorSpeeds POLOLU_VNH5019"); 
     setMotorSpeed(LEFT, leftSpeed);
     setMotorSpeed(RIGHT, rightSpeed);
   }
@@ -52,6 +53,7 @@
 
   // A convenience function for setting both motor speeds
   void setMotorSpeeds(int leftSpeed, int rightSpeed) {
+    Serial.println("setMotorSpeeds POLOLU_MC33926"); 
     setMotorSpeed(LEFT, leftSpeed);
     setMotorSpeed(RIGHT, rightSpeed);
   }
@@ -83,6 +85,7 @@
   }
   
   void setMotorSpeeds(int leftSpeed, int rightSpeed) {
+     //Serial.println("setMotorSpeeds L298_MOTOR_DRIVER"); 
     setMotorSpeed(LEFT, leftSpeed);
     setMotorSpeed(RIGHT, rightSpeed);
   }

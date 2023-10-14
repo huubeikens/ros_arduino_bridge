@@ -173,8 +173,17 @@ int runCommand() {
     Serial.println("OK"); 
     break;
   case DIGITAL_WRITE:
-    if (arg2 == 0) digitalWrite(arg1, LOW);
-    else if (arg2 == 1) digitalWrite(arg1, HIGH);
+    pinMode(arg1, OUTPUT);
+    if (arg2 == 0) 
+    { 
+      digitalWrite(arg1, LOW);
+      Serial.println("OK LOW"); 
+    }
+    else if (arg2 == 1) 
+    {
+      digitalWrite(arg1, HIGH);
+      Serial.println("OK HIGH"); 
+    }
     Serial.println("OK"); 
     break;
   case PIN_MODE:
@@ -253,24 +262,30 @@ void setup() {
 #ifdef USE_BASE
   #ifdef ARDUINO_ENC_COUNTER
     //set as inputs
-    DDRD &= ~(1<<LEFT_ENC_PIN_A);
-    DDRD &= ~(1<<LEFT_ENC_PIN_B);
-    DDRC &= ~(1<<RIGHT_ENC_PIN_A);
-    DDRC &= ~(1<<RIGHT_ENC_PIN_B);
+    DDRD &= ~(1<<LEFT_ENC_PIN_A_IN_2);
+    DDRD &= ~(1<<LEFT_ENC_PIN_B_IN_1);
+    DDRC &= ~(1<<RIGHT_ENC_PIN_A_IN_4);
+    DDRC &= ~(1<<RIGHT_ENC_PIN_B_IN_3);
     
     //enable pull up resistors
-    PORTD |= (1<<LEFT_ENC_PIN_A);
-    PORTD |= (1<<LEFT_ENC_PIN_B);
-    PORTC |= (1<<RIGHT_ENC_PIN_A);
-    PORTC |= (1<<RIGHT_ENC_PIN_B);
+    PORTD |= (1<<LEFT_ENC_PIN_A_IN_2);
+    PORTD |= (1<<LEFT_ENC_PIN_B_IN_1);
+    PORTC |= (1<<RIGHT_ENC_PIN_A_IN_4);
+    PORTC |= (1<<RIGHT_ENC_PIN_B_IN_3);
     
     // tell pin change mask to listen to left encoder pins
-    PCMSK2 |= (1 << LEFT_ENC_PIN_A)|(1 << LEFT_ENC_PIN_B);
+    PCMSK2 |= (1 << LEFT_ENC_PIN_A_IN_2)|(1 << LEFT_ENC_PIN_B_IN_1);
     // tell pin change mask to listen to right encoder pins
-    PCMSK1 |= (1 << RIGHT_ENC_PIN_A)|(1 << RIGHT_ENC_PIN_B);
+    PCMSK1 |= (1 << RIGHT_ENC_PIN_A_IN_4)|(1 << RIGHT_ENC_PIN_B_IN_3);
     
     // enable PCINT1 and PCINT2 interrupt in the general interrupt mask
     PCICR |= (1 << PCIE1) | (1 << PCIE2);
+
+    pinMode(LEFT_ENC_EN_A, OUTPUT);
+    pinMode(RIGHT_INC_EN_B, OUTPUT);
+
+    digitalWrite(LEFT_ENC_EN_A, HIGH);
+    digitalWrite(RIGHT_INC_EN_B, HIGH);   
   #endif
   initMotorController();
   resetPID();
@@ -286,6 +301,9 @@ void setup() {
           servoInitPosition[i]);
     }
   #endif
+  // Turn relay on
+  pinMode(24, OUTPUT);
+  digitalWrite(24, LOW); // LOW is on
 }
 
 /* Enter the main loop.  Read and parse input from the serial port
