@@ -69,7 +69,7 @@
     }
   }
 #else
-  #error A encoder driver must be selected!
+  //#error A encoder driver must be selected!
 #endif
 
 /* Wrap the encoder reset function */

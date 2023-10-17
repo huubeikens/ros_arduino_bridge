@@ -70,7 +70,7 @@
 #undef USE_SERVOS     // Disable use of PWM servos
 
 /* Serial port baud rate */
-#define BAUDRATE     57600
+#define BAUDRATE     115200
 
 /* Maximum PWM signal */
 #define MAX_PWM        255
@@ -122,7 +122,7 @@
 
 // A pair of varibles to help parse serial commands (thanks Fergs)
 int arg = 0;
-int index = 0;
+int index= 0;
 
 // Variable to hold an input character
 char chr;
